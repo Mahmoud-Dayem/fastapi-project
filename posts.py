@@ -1,0 +1,145 @@
+posts: list[dict]= [
+    {
+        "id": 1,
+        "author": "Ahmed Ali",
+        "title": "Getting Started with Python",
+        "content": "Python is a simple and powerful programming language for beginners and professionals.",
+        "date_posted": "2026-08-01"
+    },
+    {
+        "id": 2,
+        "author": "Sara Mohamed",
+        "title": "Introduction to FastAPI",
+        "content": "FastAPI is a modern Python framework for building fast and reliable REST APIs.",
+        "date_posted": "2026-08-02"
+    },
+    {
+        "id": 3,
+        "author": "John Smith",
+        "title": "Understanding REST APIs",
+        "content": "REST APIs allow applications to communicate using standard HTTP methods.",
+        "date_posted": "2026-08-03"
+    },
+    {
+        "id": 4,
+        "author": "Omar Hassan",
+        "title": "Learning Machine Learning",
+        "content": "Machine learning allows computers to learn patterns from data and make predictions.",
+        "date_posted": "2026-08-04"
+    },
+    {
+        "id": 5,
+        "author": "Mona Khaled",
+        "title": "Working with Pandas",
+        "content": "Pandas provides powerful tools for manipulating and analyzing structured data.",
+        "date_posted": "2026-08-05"
+    },
+    {
+        "id": 6,
+        "author": "David Wilson",
+        "title": "Python Virtual Environments",
+        "content": "Virtual environments help isolate Python dependencies between different projects.",
+        "date_posted": "2026-08-06"
+    },
+    {
+        "id": 7,
+        "author": "Ali Ibrahim",
+        "title": "Introduction to SQL",
+        "content": "SQL is commonly used to store, retrieve, and manage data in relational databases.",
+        "date_posted": "2026-08-07"
+    },
+    {
+        "id": 8,
+        "author": "Emma Brown",
+        "title": "Understanding Docker",
+        "content": "Docker packages applications and their dependencies into portable containers.",
+        "date_posted": "2026-08-08"
+    },
+    {
+        "id": 9,
+        "author": "Yousef Ahmed",
+        "title": "Building APIs with FastAPI",
+        "content": "FastAPI makes it easy to create API endpoints using Python type hints.",
+        "date_posted": "2026-08-09"
+    },
+    {
+        "id": 10,
+        "author": "Lisa Taylor",
+        "title": "Introduction to Git",
+        "content": "Git is a distributed version control system used to track changes in source code.",
+        "date_posted": "2026-08-10"
+    },
+    {
+        "id": 11,
+        "author": "Mohamed Salah",
+        "title": "Getting Started with Ollama",
+        "content": "Ollama provides a convenient way to run large language models locally.",
+        "date_posted": "2026-08-11"
+    },
+    {
+        "id": 12,
+        "author": "Sophia Martin",
+        "title": "What Are Embeddings?",
+        "content": "Embeddings represent text, images, or other information as numerical vectors.",
+        "date_posted": "2026-08-12"
+    },
+    {
+        "id": 13,
+        "author": "Khaled Mahmoud",
+        "title": "Introduction to Vector Databases",
+        "content": "Vector databases provide efficient similarity searches over embedding vectors.",
+        "date_posted": "2026-08-13"
+    },
+    {
+        "id": 14,
+        "author": "Robert White",
+        "title": "Understanding RAG",
+        "content": "Retrieval augmented generation combines information retrieval with language models.",
+        "date_posted": "2026-08-14"
+    },
+    {
+        "id": 15,
+        "author": "Nora Ahmed",
+        "title": "Introduction to LangChain",
+        "content": "LangChain provides components for developing applications powered by language models.",
+        "date_posted": "2026-08-15"
+    },
+    {
+        "id": 16,
+        "author": "Michael Green",
+        "title": "Introduction to LangGraph",
+        "content": "LangGraph helps developers build stateful workflows and agent systems using graphs.",
+        "date_posted": "2026-08-16"
+    },
+    {
+        "id": 17,
+        "author": "Hassan Adel",
+        "title": "Understanding HTTP Methods",
+        "content": "GET, POST, PUT, PATCH, and DELETE are common HTTP methods used when building APIs.",
+        "date_posted": "2026-08-17"
+    },
+    {
+        "id": 18,
+        "author": "Emily Clark",
+        "title": "Working with JSON",
+        "content": "JSON is a lightweight format commonly used for exchanging data between applications.",
+        "date_posted": "2026-08-18"
+    },
+    {
+        "id": 19,
+        "author": "Mahmoud Samir",
+        "title": "Async Programming in Python",
+        "content": "Async programming allows Python applications to efficiently handle multiple I/O operations.",
+        "date_posted": "2026-08-19"
+    },
+    {
+        "id": 20,
+        "author": "Daniel Lee",
+        "title": "Building Your First Backend",
+        "content": "A backend typically handles application logic, databases, authentication, and API requests.",
+        "date_posted": "2026-08-20"
+    }
+]
+
+
+

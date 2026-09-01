@@ -9,7 +9,8 @@ templates = Jinja2Templates(directory = "templates")
 @app.get("/")
 async def root(request:Request):
     response = templates.TemplateResponse(request,"home.html",context={
-        "posts":posts
+        "posts":posts,
+        'title':"Welcome to Home Page"
     })
 
     return response

@@ -1,3 +1,4 @@
+ 
 {% extends "layout.html" %}
 
 {% block content %}
@@ -60,7 +61,6 @@
         margin: 0;
         font-size: clamp(2.25rem, 5vw, 4.4rem);
         line-height: 1.02;
-        letter-spacing: 0;
     }
 
     .hero-copy {
@@ -78,9 +78,17 @@
         align-items: stretch;
     }
 
+    /* Entire card is now a link */
+    .post-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+
     .post-card {
         display: flex;
         min-height: 240px;
+        height: 100%;
         flex-direction: column;
         gap: 18px;
         padding: 22px;
@@ -88,10 +96,14 @@
         border-radius: 8px;
         background: rgba(255, 255, 255, 0.88);
         box-shadow: var(--shadow);
-        transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+        cursor: pointer;
+        transition:
+            transform 180ms ease,
+            border-color 180ms ease,
+            box-shadow 180ms ease;
     }
 
-    .post-card:hover {
+    .post-link:hover .post-card {
         transform: translateY(-4px);
         border-color: rgba(37, 99, 235, 0.38);
         box-shadow: 0 24px 55px rgba(15, 23, 42, 0.12);
@@ -155,27 +167,60 @@
 </style>
 
 <main class="page-shell">
+
     <section class="hero" aria-labelledby="page-title">
         <p class="eyebrow">{{ posts|length }} fresh posts</p>
+
         <h1 id="page-title">{{ title }}</h1>
+
         <p class="hero-copy">
-            Practical notes on Python, FastAPI, data tools, APIs, and modern backend development.
+            Practical notes on Python, FastAPI, data tools, APIs,
+            and modern backend development.
         </p>
     </section>
 
+
     <section class="post-grid" aria-label="Blog posts">
+
         {% for post in posts %}
-        <article class="post-card">
-            <span class="post-number">{{ "%02d"|format(loop.index) }}</span>
-            <h2>{{ post.title }}</h2>
-            <p class="post-content">{{ post.content }}</p>
-            <div class="post-meta">
-                <span><strong>{{ post.author }}</strong></span>
-                <span aria-hidden="true">/</span>
-                <span>{{ post.date_posted }}</span>
-            </div>
-        </article>
+
+        <a href="{{ url_for("get_post",post_id=post.id) }}" class="post-link">
+
+            <article class="post-card">
+
+                <span class="post-number">
+                    {{ "%02d"|format(loop.index) }}
+                </span>
+
+                <h2>{{ post.title }}</h2>
+
+                <p class="post-content">
+                    {{ post.content }}
+                </p>
+
+                <div class="post-meta">
+
+                    <span>
+                        <strong>{{ post.author }}</strong>
+                    </span>
+
+                    <span aria-hidden="true">/</span>
+
+                    <span>
+                        {{ post.date_posted }}
+                    </span>
+
+                </div>
+
+            </article>
+
+        </a>
+
         {% endfor %}
+
     </section>
+
 </main>
+
 {% endblock content %}
+ 

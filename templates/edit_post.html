@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block content %}
+<main class="auth-shell edit-shell">
+    <section class="auth-card" aria-labelledby="edit-title">
+        <h1 id="edit-title">Edit post</h1>
+        {% if error %}<p class="auth-error" role="alert">{{ error }}</p>{% endif %}
+        <form class="auth-form" action="{{ url_for('update_post', post_id=post.id) }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <label for="title">Title</label>
+            <input id="title" name="title" value="{{ values.title }}" minlength="3" maxlength="100" required>
+            <label for="content">Content</label>
+            <textarea id="content" name="content" rows="12" required>{{ values.content }}</textarea>
+            <button class="auth-button" type="submit">Save changes</button>
+        </form>
+        <p class="auth-footer"><a href="{{ url_for('get_post', post_id=post.id) }}">Cancel</a></p>
+    </section>
+</main>
+{% endblock %}

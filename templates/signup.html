@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+{% block content %}
+<main class="auth-shell">
+    <section class="auth-card" aria-labelledby="signup-title">
+        <p class="eyebrow">Join the community</p>
+        <h1 id="signup-title">Create account</h1>
+        <p class="auth-copy">Sign up to get started with your own account.</p>
+        {% if error %}<p class="auth-error" role="alert">{{ error }}</p>{% endif %}
+        <form class="auth-form" action="{{ url_for('signup_submit') }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <label for="username">Username</label>
+            <input id="username" name="username" autocomplete="username" minlength="3" maxlength="50" value="{{ values.get('username', '') }}" required>
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" value="{{ values.get('email', '') }}" required>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="100" aria-describedby="password-help" required>
+            <small id="password-help">Use between 8 and 100 characters.</small>
+            <label for="confirm-password">Confirm password</label>
+            <input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" minlength="8" maxlength="100" required>
+            <button class="auth-button" type="submit">Create account</button>
+        </form>
+        <p class="auth-footer">Already registered? <a href="{{ url_for('login_page') }}">Log in</a></p>
+    </section>
+</main>
+{% endblock %}

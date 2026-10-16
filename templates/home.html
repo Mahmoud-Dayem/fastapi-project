@@ -1,0 +1,81 @@
+ 
+{% extends "index.html" %}
+
+{% block content %}
+
+<main class="page-shell">
+
+    <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">{{ posts|length }} fresh posts</p>
+
+        <h1 id="page-title">{{ title }}</h1>
+
+        <p class="hero-copy">
+            Practical notes on Python, FastAPI, data tools, APIs,
+            and modern backend development.
+        </p>
+        <button class="auth-button create-post-button" id="open-post-modal" type="button">Create new post</button>
+    </section>
+
+    <dialog id="post-modal" class="post-modal" aria-labelledby="post-modal-title">
+        <h2 id="post-modal-title">Create new post</h2>
+        {% if current_user %}
+        <form id="create-post-form" class="auth-form" action="{{ url_for('create_post') }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <label for="post-title">Title</label>
+            <input id="post-title" name="title" required minlength="3" maxlength="100" autofocus>
+            <label for="post-content">Content</label>
+            <textarea id="post-content" name="content" rows="8" required></textarea>
+            <p id="create-post-error" class="auth-error" role="alert" hidden></p>
+            <button class="auth-button" type="submit">Publish post</button>
+        </form>
+        {% else %}
+        <p>Please <a href="{{ url_for('login_page') }}">log in</a> to create a post.</p>
+        {% endif %}
+        <button class="nav-button modal-close" id="close-post-modal" type="button">Cancel</button>
+    </dialog>
+    <script src="{{ url_for('static', path='/js/create-post.js') }}" defer></script>
+
+
+    <section class="post-grid" aria-label="Blog posts">
+
+        {% for post in posts %}
+
+
+            <article class="post-card">
+
+                <span class="post-number">
+                    {{ "%02d"|format(loop.index) }}
+                </span>
+
+                <h2><a href="{{ url_for('get_post', post_id=post.id) }}" class="post-link">{{ post.title }}</a></h2>
+
+                <p class="post-content">
+                    {{ post.content }}
+                </p>
+
+                <div class="post-meta">
+
+                    <span>
+                        <strong>{{ post.author }}</strong>
+                    </span>
+
+                    <span aria-hidden="true">/</span>
+
+                    <span>
+                        {{ post.date_posted }}
+                    </span>
+
+                </div>
+
+                {% include "post_actions.html" %}
+            </article>
+
+        {% endfor %}
+
+    </section>
+
+</main>
+
+{% endblock content %}
+ 

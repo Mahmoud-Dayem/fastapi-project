@@ -1,0 +1,3 @@
+{% if has_more %}
+<a class="auth-button load-more-button" href="{{ url_for('root') }}?offset={{ next_offset }}" data-offset="{{ next_offset }}">Load more</a>
+{% endif %}

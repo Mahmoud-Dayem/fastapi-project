@@ -194,3 +194,17 @@
 .edit-link { color: var(--accent-dark); background: var(--surface-soft); text-decoration: none; }
 .delete-button { color: #991b1b; background: #fef2f2; border: 1px solid #fecaca; }
 .edit-link:hover, .delete-button:hover { filter: brightness(0.95); }
+
+.profile-link { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.avatar-placeholder { display: inline-grid; place-items: center; background: var(--surface-soft); color: var(--accent-dark); font-weight: 700; }
+.profile-avatar { width: 120px; height: 120px; font-size: 2.5rem; }
+.profile-card { cursor: default; }
+.profile-details { display: grid; grid-template-columns: auto 1fr; gap: 12px 24px; margin: 0; }
+.profile-details dt { font-weight: 700; }
+.profile-details dd { margin: 0; overflow-wrap: anywhere; min-width: 0; }
+.profile-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+.load-more-controls { display: flex; justify-content: center; margin-top: 28px; }
+.load-more-button { display: inline-block; padding: 12px 28px; text-decoration: none; }
+.load-more-button[aria-disabled="true"] { opacity: 0.65; cursor: wait; }

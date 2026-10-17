@@ -1,0 +1,33 @@
+        {% for post in posts %}
+
+
+            <article class="post-card">
+
+                <span class="post-number">
+                    {{ "%02d"|format(offset + loop.index) }}
+                </span>
+
+                <h2><a href="{{ url_for('get_post', post_id=post.id) }}" class="post-link">{{ post.title }}</a></h2>
+
+                <p class="post-content">
+                    {{ post.content }}
+                </p>
+
+                <div class="post-meta">
+
+                    <span>
+                        <strong>{{ post.author }}</strong>
+                    </span>
+
+                    <span aria-hidden="true">/</span>
+
+                    <span>
+                        {{ post.date_posted }}
+                    </span>
+
+                </div>
+
+                {% include "post_actions.html" %}
+            </article>
+
+        {% endfor %}

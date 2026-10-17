@@ -17,7 +17,14 @@
         <a class="brand" href="{{ url_for('root') }}">FastAPI Blog</a>
         <div class="nav-links">
         {% if current_user %}
-            <span>Hello, {{ current_user.username }}</span>
+            <a class="profile-link" href="{{ url_for('profile_page') }}" aria-label="Open your profile">
+                {% if current_user.profile_image %}
+                <img class="avatar" src="{{ url_for('profile_images', path=current_user.profile_image) }}" alt="Your profile photo" width="40" height="40">
+                {% else %}
+                <span class="avatar avatar-placeholder" aria-hidden="true">{{ current_user.username[0]|upper }}</span>
+                {% endif %}
+                <span>{{ current_user.username }}</span>
+            </a>
             <form action="{{ url_for('logout') }}" method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                 <button class="nav-button" type="submit">Log out</button>

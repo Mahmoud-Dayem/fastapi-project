@@ -3,7 +3,7 @@ from typing import Annotated
 
 import models.user
 from fastapi import Depends
-from sqlalchemy import event
+from sqlalchemy import event, text
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlmodel import Session, SQLModel
@@ -25,6 +25,10 @@ async def init_db():
 
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
+        # create_all does not add columns to existing SQLite tables.
+        columns = await conn.execute(text("PRAGMA table_info(users)"))
+        if "profile_image" not in {row[1] for row in columns}:
+            await conn.execute(text("ALTER TABLE users ADD COLUMN profile_image VARCHAR"))
 
 
 async def get_session():

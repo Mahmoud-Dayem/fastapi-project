@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+{% block content %}
+<main class="page-shell edit-shell">
+    <section class="post-card profile-card" aria-labelledby="profile-title">
+        <h1 id="profile-title">Your profile</h1>
+        {% if current_user.profile_image %}
+        <img class="avatar profile-avatar" src="{{ url_for('profile_images', path=current_user.profile_image) }}" alt="Your profile photo" width="120" height="120">
+        {% else %}
+        <span class="avatar avatar-placeholder profile-avatar" aria-hidden="true">{{ current_user.username[0]|upper }}</span>
+        {% endif %}
+        <dl class="profile-details">
+            <dt>Username</dt><dd>{{ current_user.username }}</dd>
+            <dt>Email</dt><dd>{{ current_user.email }}</dd>
+            <dt>Role</dt><dd>{{ current_user.role or 'user' }}</dd>
+            <dt>Member since</dt><dd>{{ current_user.created_at.strftime('%B %d, %Y') }}</dd>
+        </dl>
+        {% if error %}<p class="auth-error" role="alert">{{ error }}</p>{% endif %}
+        {% if updated %}<p role="status">Profile photo updated.</p>{% endif %}
+        <form class="auth-form" action="{{ url_for('profile_image_upload') }}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <label for="profile-image">Profile image</label>
+            <input id="profile-image" name="image" type="file" accept="image/jpeg,image/png" required aria-describedby="image-help">
+            <p id="image-help">JPEG or PNG, up to 5 MB. Your photo will be cropped to a square.</p>
+            <button class="auth-button" type="submit">Upload profile image</button>
+        </form>
+        <a href="{{ url_for('root') }}">Back to home</a>
+    </section>
+</main>
+{% endblock %}

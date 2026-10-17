@@ -28,6 +28,7 @@ class UserModel(SQLModel, table=True):
     email: EmailStr = Field(index=True, unique=True, max_length=255)
 
     hashed_password: str
+    profile_image: str | None = Field(default=None)
     role: str  | None = Field(default="user")
 
     is_active: bool = Field(default=True)

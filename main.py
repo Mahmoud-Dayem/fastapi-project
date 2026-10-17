@@ -1,7 +1,9 @@
 import os
 from contextlib import asynccontextmanager
+from email.message import EmailMessage
 
-from fastapi import FastAPI, HTTPException, Request, status
+import aiosmtplib
+from fastapi import FastAPI, HTTPException, Query, Request, status
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -9,10 +11,11 @@ from sqlmodel import select
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from database import SessionDep, init_db
+from image_utils import PROFILE_PICS_DIR
 from models.post import PostCreate, PostModel, PostPublic
 
 # from posts import posts
-from routers import auth_pages, post_pages, users
+from routers import auth_pages, post_pages, profile_pages, users
 
 ENV = os.getenv("ENV", "development")
 
@@ -32,6 +35,12 @@ app = FastAPI(
 app.include_router(users.router)
 app.include_router(auth_pages.router)
 app.include_router(post_pages.router)
+app.include_router(profile_pages.router)
+app.mount(
+    "/media/profile_pics",
+    StaticFiles(directory=str(PROFILE_PICS_DIR)),
+    name="profile_images",
+)
 
 app.mount(
     "/static",
@@ -68,20 +77,32 @@ templates = Jinja2Templates(directory="templates")
 
 
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
-async def root(request: Request, session: SessionDep):
+async def root(
+    request: Request,
+    session: SessionDep,
+    user: auth_pages.current_user_public,
+    offset: int = Query(default=0, ge=0),
+    fragment: bool = False,
+):
 
-    statement = select(PostModel).order_by(PostModel.date_posted.desc())
-
+    page_size = 4
+    statement = (
+        select(PostModel)
+        .order_by(PostModel.date_posted.desc(), PostModel.id.desc())
+        .offset(offset)
+        .limit(page_size + 1)
+    )
     result = await session.execute(statement)
-    posts = result.scalars().all()
-
+    batch = result.scalars().all()
     current_user = await auth_pages.get_browser_user(request, session)
-
     return templates.TemplateResponse(
         request,
-        "home.html",
+        "post_batch.html" if fragment else "home.html",
         context={
-            "posts": posts,
+            "posts": batch[:page_size],
+            "has_more": len(batch) > page_size,
+            "next_offset": offset + page_size,
+            "offset": offset,
             "title": "Welcome to Home Page",
             "current_user": current_user,
             "csrf_token": request.cookies.get("csrf_token", ""),
@@ -95,10 +116,13 @@ async def get_post(post_id: int, request: Request, session: SessionDep):
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
     return templates.TemplateResponse(
-        request=request, name="post.html", context={
-            "post": post, "current_user": await auth_pages.get_browser_user(request, session),
+        request=request,
+        name="post.html",
+        context={
+            "post": post,
+            "current_user": await auth_pages.get_browser_user(request, session),
             "csrf_token": request.cookies.get("csrf_token", ""),
-        }
+        },
     )
 
 
@@ -159,3 +183,23 @@ async def get_posts_api(session: SessionDep):
     result = await session.execute(statement)
 
     return result.scalars().all()
+
+
+@app.post("/send-email")
+async def send_email():
+
+    message = EmailMessage()
+
+    message["From"] = "admin@myapp.com"
+    message["To"] = "user@gmail.com"
+    message["Subject"] = "Reset Your Password"
+
+    message.set_content("Click here to reset your password.")
+
+    await aiosmtplib.send(
+        message,
+        hostname="localhost",
+        port=1025,
+    )
+
+    return {"message": "Email sent to Mailpit"}

@@ -6,7 +6,7 @@
 <main class="page-shell">
 
     <section class="hero" aria-labelledby="page-title">
-        <p class="eyebrow">{{ posts|length }} fresh posts</p>
+        <p class="eyebrow">Latest posts</p>
 
         <h1 id="page-title">{{ title }}</h1>
 
@@ -37,44 +37,18 @@
     <script src="{{ url_for('static', path='/js/create-post.js') }}" defer></script>
 
 
-    <section class="post-grid" aria-label="Blog posts">
+    <section id="post-grid" class="post-grid" aria-label="Blog posts">
 
-        {% for post in posts %}
+        {% include "post_cards.html" %}
 
-
-            <article class="post-card">
-
-                <span class="post-number">
-                    {{ "%02d"|format(loop.index) }}
-                </span>
-
-                <h2><a href="{{ url_for('get_post', post_id=post.id) }}" class="post-link">{{ post.title }}</a></h2>
-
-                <p class="post-content">
-                    {{ post.content }}
-                </p>
-
-                <div class="post-meta">
-
-                    <span>
-                        <strong>{{ post.author }}</strong>
-                    </span>
-
-                    <span aria-hidden="true">/</span>
-
-                    <span>
-                        {{ post.date_posted }}
-                    </span>
-
-                </div>
-
-                {% include "post_actions.html" %}
-            </article>
-
-        {% endfor %}
 
     </section>
 
+    <div id="load-more-controls" class="load-more-controls">
+        {% include "load_more.html" %}
+    </div>
+    <p id="load-more-status" role="status" aria-live="polite"></p>
+    <script src="{{ url_for('static', path='/js/load-more.js') }}" defer></script>
 </main>
 
 {% endblock content %}

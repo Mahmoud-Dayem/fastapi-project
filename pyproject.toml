@@ -9,6 +9,8 @@ dependencies = [
     "pwdlib[argon2]>=0.3.1",
     "sqlalchemy[asyncio]>=2.1.4",
     "sqlmodel>=0.0.48",
+    "pillow>=12.3.0",
+    "aiosmtplib>=5.1.3",
 ]
 
 

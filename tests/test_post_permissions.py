@@ -49,6 +49,28 @@ class PostPermissionsTest(unittest.TestCase):
     def sign_in(self, email):
         self.client.cookies.set("access_token", create_access_token({"sub": email, "type": "access_token"}))
 
+    def test_home_loads_six_posts_per_batch(self):
+        async def add_posts():
+            async with AsyncSession(self.engine) as session:
+                session.add_all([
+                    PostModel(title=f"Pagination post {i}", content="Content", author="Owner", user_id=1)
+                    for i in range(12)
+                ])
+                await session.commit()
+        asyncio.run(add_posts())
+        import re
+        seen = set()
+        for offset, expected in [(0, 6), (6, 6), (12, 1)]:
+            response = self.client.get("/", params={"offset": offset, "fragment": offset > 0})
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.text.count('class="post-card"'), expected)
+            links = set(re.findall(r'<a href="([^"]+)" class="post-link">', response.text))
+            self.assertFalse(seen & links)
+            seen.update(links)
+            self.assertEqual('class="auth-button load-more-button"' in response.text, offset < 12)
+        self.assertEqual(len(seen), 13)
+        self.assertEqual(self.client.get("/?offset=-1").status_code, 422)
+
     def test_anonymous_and_non_owner_cannot_manage_post(self):
         data = {"title": "Changed title", "content": "Changed content", "csrf_token": "test-csrf"}
         for status, email in [(401, None), (403, "other@example.com")]:

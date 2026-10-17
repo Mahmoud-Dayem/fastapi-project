@@ -15,7 +15,6 @@ class UserCreate(SQLModel):
     username: str = Field(min_length=3, max_length=50)
     email: EmailStr
     password: str = Field(min_length=8, max_length=100)
-    
 
 
 # Database table
@@ -29,7 +28,7 @@ class UserModel(SQLModel, table=True):
 
     hashed_password: str
     profile_image: str | None = Field(default=None)
-    role: str  | None = Field(default="user")
+    role: str | None = Field(default="user")
 
     is_active: bool = Field(default=True)
     is_admin: bool = Field(default=False)
@@ -72,3 +71,18 @@ class PasswordResetToken(SQLModel, table=True):
 
     # used_at: datetime | None = Field(default=None)
     used: bool = Field(default=False)
+
+
+class PasswordResetTokennew(SQLModel, table=True):
+    __tablename__ = "password_reset_tokensv2"
+
+    id: int | None = Field(default=None, primary_key=True)
+
+    user_id: int = Field(foreign_key="users.id")
+
+    token_hash: str = Field(index=True, unique=True)
+
+    expires_at: datetime
+
+    used: bool = Field(default=False)
+    email: EmailStr

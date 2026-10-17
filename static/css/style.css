@@ -208,3 +208,5 @@
 .load-more-controls { display: flex; justify-content: center; margin-top: 28px; }
 .load-more-button { display: inline-block; padding: 12px 28px; text-decoration: none; }
 .load-more-button[aria-disabled="true"] { opacity: 0.65; cursor: wait; }
+
+.profile-reset-button { align-self: flex-start; padding: 12px 24px; text-decoration: none; text-align: center; }

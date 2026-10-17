@@ -23,6 +23,7 @@
             <p id="image-help">JPEG or PNG, up to 5 MB. Your photo will be cropped to a square.</p>
             <button class="auth-button" type="submit">Upload profile image</button>
         </form>
+        <a class="auth-button profile-reset-button" href="{{ url_for('forgot_password_page') }}">Reset password</a>
         <a href="{{ url_for('root') }}">Back to home</a>
     </section>
 </main>
